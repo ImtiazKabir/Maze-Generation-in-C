@@ -35,7 +35,7 @@ int dir[4][2] = {
 };
 
 int main() {
-    // boiler plate code for SDL
+    // boilerplate code for SDL
     SDL_Init(SDL_INIT_EVERYTHING);
 
     SDL_Window *window = SDL_CreateWindow(
@@ -63,8 +63,7 @@ int main() {
     // initiate the grid
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < col; ++j) {
-            if (i%2) arr[i][j] = wall;
-            else if (j%2) arr[i][j] = wall;
+            if (i%2 || j%2) arr[i][j] = wall;
             else arr[i][j] = unvisited;
         }
     }
