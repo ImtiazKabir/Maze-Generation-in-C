@@ -1,10 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <SDL2/SDL.h>
+
+
+// define the screen
+#define WIDTH 600
+#define HEIGHT 600
 
 // define how big the maze is
-#define row 19
-#define col 19
+#define row 60
+#define col 60
 
 
 // define all the states a cell can have
@@ -29,6 +35,27 @@ int dir[4][2] = {
 };
 
 int main() {
+    // boiler plate code for SDL
+    SDL_Init(SDL_INIT_EVERYTHING);
+
+    SDL_Window *window = SDL_CreateWindow(
+        "MAZE",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        WIDTH, HEIGHT,
+        SDL_WINDOW_SHOWN
+    );
+
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderClear(renderer);
+
+    // create the wall
+    SDL_Rect wallRect = {.w = WIDTH/col, .h = HEIGHT/row};
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+
+
     // initiate the randomness
     srand(time(0));
 
@@ -42,16 +69,27 @@ int main() {
         }
     }
 
-    // call to the recursive function
+    // call the recursive function
     createMaze(0, 0);
 
     // show the maze
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < col; ++j) {
-            printf("%d ", arr[i][j]);
+            if (arr[i][j] == wall) {
+                wallRect.x = j * wallRect.w;
+                wallRect.y = i * wallRect.h;
+                SDL_RenderFillRect(renderer, &wallRect);
+            }
         }
-        printf("\n");
     }
+
+    // everything done, now finishing
+    SDL_RenderPresent(renderer);
+    SDL_Delay(5000);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+
     return 0;
 }
 
