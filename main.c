@@ -39,12 +39,12 @@ int main() {
     SDL_Init(SDL_INIT_EVERYTHING);
 
     SDL_Window *window = SDL_CreateWindow(
-        "MAZE",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        WIDTH, HEIGHT,
-        SDL_WINDOW_SHOWN
-    );
+            "MAZE",
+            SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED,
+            WIDTH, HEIGHT,
+            SDL_WINDOW_SHOWN
+            );
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -93,7 +93,7 @@ int main() {
 }
 
 void createMaze(int i, int j) {
-   // mark the cell as visited
+    // mark the cell as visited
     arr[i][j] = visited;
     while (1) {
         int p = hasUnvisitedNeighbour(i, j);
@@ -110,10 +110,18 @@ int hasUnvisitedNeighbour(int i, int j) {
     // make a list of all the unvisited neighbours
     int list[4];
     int count = 0;
-    if (i-2 >= 0 && arr[i-2][j] == unvisited) list[count++] = 1;
-    if (i+2 < row && arr[i+2][j] == unvisited) list[count++] = 3;
-    if (j-2 >= 0 && arr[i][j-2] == unvisited) list[count++] = 0;
-    if (j+2 < col && arr[i][j+2] == unvisited) list[count++] = 2;
+    if (i-2 >= 0 && arr[i-2][j] == unvisited) {
+        list[count] = 1; ++count;
+    }
+    if (i+2 < row && arr[i+2][j] == unvisited) {
+        list[count] = 3; ++count;
+    }
+    if (j-2 >= 0 && arr[i][j-2] == unvisited) {
+        list[count] = 0; ++count;
+    }
+    if (j+2 < col && arr[i][j+2] == unvisited) {
+        list[count] = 2; ++count;
+    }
     if (count) return list[rand() % count];
     return -1;
 }
