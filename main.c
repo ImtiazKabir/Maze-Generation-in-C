@@ -84,7 +84,11 @@ int main() {
 
     // everything done, now finishing
     SDL_RenderPresent(renderer);
-    SDL_Delay(5000);
+    while (1) {
+        SDL_Event event;
+        SDL_PollEvent(&event);
+        if (event.type == SDL_QUIT) break;
+    }
     SDL_DestroyWindow(window);
     SDL_Quit();
 
